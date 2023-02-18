@@ -9,7 +9,7 @@ from tracker.views.steps.steps_sz import StepsSerializer, AddStepsSerializer, Di
 
 class StepsViewset(ModelViewSet):
     serializer_class = StepsSerializer
-    http_method_names = ['get', 'post', 'put', 'patch']
+    http_method_names = ['get', 'post', 'put', 'patch', 'delete']
 
     def get_serializer_class(self):
         if self.action == "desctivate_steps":
@@ -23,7 +23,7 @@ class StepsViewset(ModelViewSet):
     def get_queryset(self):
         return Steps.objects.all()
 
-    @action(detail=False, methods=["post"])
+    @action(detail=False, methods=["post", "get"])
     def desctivate_steps(self, request):
         Steps.objects.filter(is_active=True).update(is_active=False)
         return Response("operation terminée !", status=status.HTTP_200_OK)

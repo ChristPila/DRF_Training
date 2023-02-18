@@ -42,8 +42,12 @@ class Steps(models.Model):
 class MouvementDetails(models.Model):
     heure = models.TimeField(auto_now=True)
     status = models.CharField(max_length=255, choices=status_choices2, default="1")
-    step = models.IntegerField(default=0)
+    step = models.IntegerField(default=1)
     mouvements = models.ForeignKey('tracker.Mouvements', blank=True, on_delete=models.DO_NOTHING)
+    is_active = models.BooleanField(default=True)
+
+    def __int__(self):
+        return self.step
 
 
 
