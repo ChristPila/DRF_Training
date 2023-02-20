@@ -5,10 +5,16 @@ class Camions(models.Model):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Chauffeur(models.Model):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
 
 
 status_choices1 = (
@@ -32,6 +38,9 @@ class Mouvements(models.Model):
     chauffeurs = models.ForeignKey('tracker.Chauffeur', on_delete=models.DO_NOTHING)
     camion = models.ForeignKey('tracker.Camions', blank=True, on_delete=models.DO_NOTHING)
 
+    def __str__(self):
+        return self.remote_id
+
 
 class Steps(models.Model):
     checkpoint = models.CharField(max_length=255)
@@ -41,13 +50,12 @@ class Steps(models.Model):
 
 class MouvementDetails(models.Model):
     heure = models.TimeField(auto_now=True)
+    date_op = models.DateTimeField(null=True)
     status = models.CharField(max_length=255, choices=status_choices2, default="1")
-    step = models.IntegerField(default=1)
+    checkpoint = models.CharField(max_length=255, null=True)
+    step = models.IntegerField(default=0)
     mouvements = models.ForeignKey('tracker.Mouvements', blank=True, on_delete=models.DO_NOTHING)
     is_active = models.BooleanField(default=True)
-
-    def __int__(self):
-        return self.step
 
 
 

@@ -23,7 +23,12 @@ class MouvementDSerializer(ModelSerializer):
 class AddMouvementDSerializer(ModelSerializer):
     class Meta:
         model = MouvementDetails
-        fields = ['mouvements']
+        fields = ['step', 'checkpoint']
+
+    def validate(self, data):
+        data['mouvements'] = self.context['mouvements']
+        print('Les donnees :', data)
+        return super().validate(data)
 
 
 class NextStepsSerializer(ModelSerializer):
