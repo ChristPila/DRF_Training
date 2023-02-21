@@ -3,3 +3,6 @@ Django==4.1.7
 sqlparse==0.4.3
 djangorestframework
 django-filter
+djoser==2.1.0
+python-decouple
+djangorestframework-simplejwt==5.2.2

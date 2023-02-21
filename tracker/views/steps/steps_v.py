@@ -20,10 +20,13 @@ class StepsViewset(ModelViewSet):
             return UpdateCategorySerializer"""
         return StepsSerializer
 
+    def get_serializer_context(self):
+        return {'user': self.request.user}
+
     def get_queryset(self):
         return Steps.objects.all()
 
-    @action(detail=True, methods=["post", "get"])
+    @action(detail=False, methods=["post", "get"])
     def desctivate_steps(self, request):
         Steps.objects.filter(is_active=True).update(is_active=False)
         return Response("operation terminée !", status=status.HTTP_200_OK)

@@ -1,4 +1,6 @@
 from django.db.models import Q
+from django.utils.timezone import now
+from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer, ValidationError
 
@@ -6,9 +8,15 @@ from tracker.models import Mouvements, Camions, Chauffeur
 
 
 class MouvementSerializer(ModelSerializer):
+    #user_ = SerializerMethodField()
+
     class Meta:
         model = Mouvements
         fields = '__all__'
+
+    """def get_user_(self, obj):
+        print('OBJET: ', obj)
+        return obj.user"""
 
 
 class AddMouvementSerializer(ModelSerializer):
@@ -26,6 +34,7 @@ class AddMouvementSerializer(ModelSerializer):
         else:
             q.delete()
         print('validate', data)
+        data['user'] = self.context['user']
         return super().validate(data)
 
 

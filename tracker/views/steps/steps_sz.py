@@ -21,6 +21,7 @@ class AddStepsSerializer(ModelSerializer):
         if q.exists():
             raise ValidationError(detail=f"L'étape {step + 1} existe déjà")
         data['step'] = step + 1
+        data['user'] = self.context['user']
         return super().validate(data)
 
 

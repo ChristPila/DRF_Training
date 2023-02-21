@@ -1,9 +1,16 @@
+from django.conf.global_settings import AUTH_USER_MODEL
 from django.db import models
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
 
 
 class Camions(models.Model):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name
@@ -12,6 +19,7 @@ class Camions(models.Model):
 class Chauffeur(models.Model):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name
@@ -37,15 +45,17 @@ class Mouvements(models.Model):
     is_active = models.BooleanField(default=True)
     chauffeurs = models.ForeignKey('tracker.Chauffeur', on_delete=models.DO_NOTHING)
     camion = models.ForeignKey('tracker.Camions', blank=True, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.DO_NOTHING)
 
-    def __str__(self):
-        return self.remote_id
+    """def __str__(self):
+        return self.remote_id"""
 
 
 class Steps(models.Model):
     checkpoint = models.CharField(max_length=255)
     step = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
+    user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.DO_NOTHING)
 
 
 class MouvementDetails(models.Model):
@@ -56,6 +66,3 @@ class MouvementDetails(models.Model):
     step = models.IntegerField(default=0)
     mouvements = models.ForeignKey('tracker.Mouvements', blank=True, on_delete=models.DO_NOTHING)
     is_active = models.BooleanField(default=True)
-
-
-
