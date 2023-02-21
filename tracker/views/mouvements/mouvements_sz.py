@@ -4,10 +4,16 @@ from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer, ValidationError
 
 from tracker.models import Mouvements, Camions, Chauffeur
+from tracker.views.camions.camions_sz import CamionsInfos
+from tracker.views.chauffeurs.chauffeur_sz import ChauffeursInfos
+from tracker.views.mouvementsDetails.mouvementD_sz import MouvementDSerializer
 
 
 class MouvementSerializer(ModelSerializer):
     user_name = SerializerMethodField()
+    chauffeurs = ChauffeursInfos()
+    camion = CamionsInfos()
+    mouvementdetails = MouvementDSerializer(many=True, source='mouvementdetails_set')
 
     class Meta:
         model = Mouvements

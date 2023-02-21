@@ -9,6 +9,12 @@ class CamionSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class CamionsInfos(ModelSerializer):
+    class Meta:
+        model = Camions
+        fields = ['id', 'name']
+
+
 class AddCamionSerializer(ModelSerializer):
     class Meta:
         model = Camions
