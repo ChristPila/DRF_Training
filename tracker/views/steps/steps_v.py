@@ -1,4 +1,5 @@
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from rest_framework import status
@@ -10,6 +11,7 @@ from tracker.views.steps.steps_sz import StepsSerializer, AddStepsSerializer, Di
 class StepsViewset(ModelViewSet):
     serializer_class = StepsSerializer
     http_method_names = ['get', 'post', 'put', 'patch', 'delete']
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == "desctivate_steps":

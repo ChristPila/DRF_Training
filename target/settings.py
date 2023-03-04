@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -38,14 +39,65 @@ INSTALLED_APPS = [
     'tracker',
     'rest_framework',
     'djoser',
-    'django_filters'
+    'django_filters',
+    'drf_standardized_errors',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler"
 }
+DRF_STANDARDIZED_ERRORS = {
+    "ENABLE_IN_DEBUG_FOR_UNHANDLED_EXCEPTIONS": True,
+    #"EXCEPTION_HANDLER_CLASS": "DFRExceptionHandler"s
+}
+LOGGING = {
+    'version': 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            'formatter': 'verbose'
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs", "general.log"),
+            'formatter': 'verbose'
+
+        },
+        'infofile': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, "logs", 'daily.log'),
+            'when': 'midnight',  # daily, you can use 'midnight' as well
+            "interval": 1,
+            # 'backupCount': 100,  # 100 days backup
+            'formatter': 'verbose',
+        },
+    },
+    "loggers": {
+        # "app_store":{
+        # "app_store.views":{
+        "": {
+            'handlers': ['infofile'],
+            # "level": "ERROR"
+        },
+        "___": {
+            'handlers': ['console', ],
+            "level": "DEBUG"
+        }
+    },
+    "formatters": {
+        "verbose": {
+            'format': '{asctime} ({levelname}) - {lineno} - {name} - {message}',
+            # log_format = '%(levelname)s %(asctime)s %(module)s:%(funcName)s line:%(lineno)d %(message)s'
+            'style': '{'
+        }
+    }
+}
+
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),

@@ -47,6 +47,10 @@ class Mouvements(models.Model):
     camion = models.ForeignKey('tracker.Camions', blank=True, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.DO_NOTHING)
 
+    """@property
+    def name(self):
+        return self.camion.name"""
+
     """def __str__(self):
         return self.remote_id"""
 
